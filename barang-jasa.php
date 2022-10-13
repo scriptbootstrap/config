@@ -214,6 +214,7 @@ include("../../include/seo.php");
 													<th>#</th>
 													<th style="width: 10%">Opsi</th>
 													<th>Nama Paket</th>
+													<th>Memo</th>
 													<th>BAPHK</th>
 													<th>PI-P</th>
 													<th>PI-BU</th>
@@ -232,6 +233,7 @@ include("../../include/seo.php");
 													<th>#</th>
 													<th style="width: 10%">Opsi</th>
 													<th>Nama Paket</th>
+													<th>Memo</th>
 													<th>BAPHK</th>
 													<th>PI-P</th>
 													<th>PI-BU</th>
@@ -268,7 +270,56 @@ include("../../include/seo.php");
 														</td>
 														<td><?= $row["nama_pekerjaan"]; ?></td>
 
+														<!-- TEMPLATE MEMO -->
+														<td>
+															<!-- READY -->
+															<?php if (!empty($queryMemo)) : ?>
+																<?php foreach ($queryMemo as $rowMemo) : ?>
+																	<div class="form-button-action">
+																		<div class="dropdown show">
+																			<a class="show-opsi bg-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																				<i class="fa fa-check"></i>
+																			</a>
 
+																			<div class="dropdown-menu dropdown-menu-opsi" aria-labelledby="dropdownMenuLink">
+																				<a class="dropdown-item text-light bg-skb-3" href="<?php include("url.php"); ?>memo/edit-memo?id_memo=<?= $rowMemo["id"]; ?>"><i class="fa fa-edit"></i> Ubah</a>
+
+																				<form action="memo/print-word" method="post">
+																					<input type="text" hidden name="nama_satker" value="<?= $rowMemo["nama_satker"]; ?>">
+																					<input type="text" hidden name="nama_pekerjaan" value="<?= $rowMemo["nama_pekerjaan"]; ?>">
+																					<input type="text" hidden name="tgl_terbit" value="<?= tgl_indo(date($rowMemo["tgl_terbit"])); ?>">
+																					<input type="text" hidden name="tahun_anggaran" value="<?= $rowMemo["tahun_anggaran"]; ?>">
+																					<input type="text" hidden name="tgl_permintaan" value="<?= tgl_indo(date($rowMemo["tgl_permintaan"])); ?>">
+																					<input type="text" hidden name="fungsi" value="<?= $rowMemo["fungsi"]; ?>">
+																					<input type="text" hidden name="nama_ppk" value="<?= $rowMemo["nama_ppk"]; ?>">
+																					<button type="submit" value="print" class="btn-opsi bg-skb-1"><i class="fa fa-print"></i> Cetak Word</button>
+																				</form>
+
+																				<a class="dropdown-item text-light bg-skb-6" href="#" data-toggle="modal" data-target="#reset-memo<?= $rowMemo["id"]; ?>"><i class=" fa fa-times"></i> Reset</a>
+
+																			</div>
+
+
+																		</div>
+																	</div>
+																<?php endforeach; ?>
+															<?php endif; ?>
+
+															<!-- NOT READY -->
+															<?php if (empty($queryMemo)) : ?>
+																<div class="form-button-action">
+																	<div class="dropdown show">
+																		<a class="show-opsi bg-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																			<i class="fas fa-undo"></i>
+																		</a>
+
+																		<div class="dropdown-menu dropdown-menu-opsi" aria-labelledby="dropdownMenuLink">
+																			<a class="dropdown-item text-light bg-skb-3" href="<?php include("url.php"); ?>memo/add-memo?id_barang_jasa=<?= $row["id"]; ?>"><i class="fa fa-edit"></i> Tambah</a>
+																		</div>
+																	</div>
+																</div>
+															<?php endif; ?>
+														</td>
 
 														<!-- TEMPLATE BAPHK -->
 														<td>
